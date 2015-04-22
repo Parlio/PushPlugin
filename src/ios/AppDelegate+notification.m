@@ -75,6 +75,7 @@ static char launchNotificationKey;
         PushPlugin *pushHandler = [self getCommandInstance:@"PushPlugin"];
         pushHandler.notificationMessage = userInfo;
         pushHandler.isInline = YES;
+        [pushHandler setCallback:@""];
         [pushHandler notificationReceived];
     } else {
         //save it for later
@@ -94,6 +95,7 @@ static char launchNotificationKey;
 		
         pushHandler.notificationMessage = self.launchNotification;
         self.launchNotification = nil;
+        [pushHandler setCallback:@"onNotificationAPN"];
         [pushHandler performSelectorOnMainThread:@selector(notificationReceived) withObject:pushHandler waitUntilDone:NO];
     }
 }
