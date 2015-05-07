@@ -47,8 +47,14 @@ static char launchNotificationKey;
     if (notification)
     {
         NSDictionary *launchOptions = [notification userInfo];
-        if (launchOptions)
+        if (launchOptions){
             self.launchNotification = [launchOptions objectForKey: @"UIApplicationLaunchOptionsRemoteNotificationKey"];
+            PushPlugin *pushHandler = [self getCommandInstance:@"PushPlugin"];
+            pushHandler.isInline = YES;
+            [pushHandler setCallback:@"onNotificationAPN"];
+            pushHandler.notificationMessage = self.launchNotification;
+            [pushHandler performSelectorOnMainThread:@selector(notificationReceived) withObject:pushHandler waitUntilDone:NO];
+        }
     }
 }
 
