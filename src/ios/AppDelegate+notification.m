@@ -53,7 +53,7 @@ static char launchNotificationKey;
             pushHandler.isInline = YES;
             [pushHandler setCallback:@"onNotificationAPN"];
             pushHandler.notificationMessage = self.launchNotification;
-            [pushHandler performSelectorOnMainThread:@selector(notificationReceived) withObject:pushHandler waitUntilDone:NO];
+            [pushHandler performSelectorOnMainThread:@selector(notificationReceived) withObject:pushHandler waitUntilDone:YES];
         }
     }
 }
