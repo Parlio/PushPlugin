@@ -217,7 +217,7 @@
 
         NSLog(@"Msg: %@", jsonStr);
 
-        NSString * jsCallBack = [NSString stringWithFormat:@"%@(%@);", self.callback, jsonStr];
+        NSString * jsCallBack = [NSString stringWithFormat:@"window.location = '#/notifications'"];
         [self.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
 
         self.notificationMessage = nil;
