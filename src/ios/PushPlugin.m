@@ -217,11 +217,17 @@
 
         NSLog(@"Msg: %@", jsonStr);
 
-        NSString * jsCallBack = [NSString stringWithFormat:@"window.location = '#/notifications'"];
-        [self.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
-
-        self.notificationMessage = nil;
+        NSString * jsCallBack = [NSString stringWithFormat:@"%@(%@);", self.callback, jsonStr];
+        NSString * returnMsg = [self.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
+        if([returnMsg isEqualToString:@"Done"]){
+            self.notificationMessage = nil;
+        }
     }
+}
+
+- (void)handlePendingNotifications:(CDVInvokedUrlCommand*)command {
+    NSLog(@"Going to handle pending notifications if any");
+    [self notificationReceived];
 }
 
 // reentrant method to drill down and surface all sub-dictionaries' key/value pairs into the top level json
