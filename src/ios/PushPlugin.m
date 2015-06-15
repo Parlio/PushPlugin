@@ -219,7 +219,7 @@
 
         NSString * jsCallBack = [NSString stringWithFormat:@"%@(%@);", self.callback, jsonStr];
         NSString * returnMsg = [self.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
-        if([returnMsg isEqualToString:@"Done"]){
+        if([returnMsg boolValue]){
             self.notificationMessage = nil;
         }
     }
