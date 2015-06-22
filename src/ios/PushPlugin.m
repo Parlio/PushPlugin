@@ -199,8 +199,7 @@
 - (void)notificationReceived {
     NSLog(@"Notification received");
 
-    if (notificationMessage && self.callback)
-    {
+    if (self.isWebClientReady && notificationMessage && self.callback) {
         NSMutableString *jsonStr = [NSMutableString stringWithString:@"{"];
 
         [self parseDictionary:notificationMessage intoJSON:jsonStr];
@@ -210,7 +209,7 @@
             [jsonStr appendFormat:@"foreground:\"%d\"", 1];
             isInline = NO;
         }
-		else
+        else
             [jsonStr appendFormat:@"foreground:\"%d\"", 0];
 
         [jsonStr appendString:@"}"];
@@ -218,19 +217,15 @@
         NSLog(@"Msg: %@", jsonStr);
 
         NSString * jsCallBack = [NSString stringWithFormat:@"%@(%@);", self.callback, jsonStr];
-        NSString * returnMsg = [self.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
-        if([returnMsg boolValue]){
-            self.notificationMessage = nil;
-        }else{
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived)
-                                                         name:@"WEBCLIENTREADY" object:nil];
-        }
+        [self.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
+        self.notificationMessage = nil;
     }
 }
 
-- (void)handlePendingNotifications:(CDVInvokedUrlCommand*)command {
-    NSLog(@"Going to handle pending notifications if any");
+- (void)onWebClientReady{
+    self.isWebClientReady = YES;
     [self notificationReceived];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"WEBCLIENTREADY" object:nil];
 }
 
 // reentrant method to drill down and surface all sub-dictionaries' key/value pairs into the top level json

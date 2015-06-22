@@ -43,6 +43,7 @@
 
 @property (nonatomic, strong) NSDictionary *notificationMessage;
 @property BOOL                          isInline;
+@property BOOL                          isWebClientReady;
 
 - (void)register:(CDVInvokedUrlCommand*)command;
 
@@ -51,6 +52,5 @@
 
 - (void)setNotificationMessage:(NSDictionary *)notification;
 - (void)notificationReceived;
-- (void)handlePendingNotifications:(CDVInvokedUrlCommand*)command;
-
+- (void)onWebClientReady;
 @end
