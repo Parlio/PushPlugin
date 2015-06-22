@@ -221,6 +221,9 @@
         NSString * returnMsg = [self.webView stringByEvaluatingJavaScriptFromString:jsCallBack];
         if([returnMsg boolValue]){
             self.notificationMessage = nil;
+        }else{
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationReceived)
+                                                         name:@"WEBCLIENTREADY" object:nil];
         }
     }
 }
