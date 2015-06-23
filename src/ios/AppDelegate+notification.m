@@ -34,10 +34,16 @@ static char launchNotificationKey;
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createNotificationChecker:)
                                                  name:@"UIApplicationDidFinishLaunchingNotification" object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onWebClientReady)
+                                                 name:@"WEBCLIENTREADY" object:nil];
     // This actually calls the original init method over in AppDelegate. Equivilent to calling super
     // on an overrided method, this is not recursive, although it appears that way. neat huh?
     return [self swizzled_init];
+}
+
+- (void)onWebClientReady{
+    PushPlugin *pushHandler = [self getCommandInstance:@"PushPlugin"];
+    [pushHandler onWebClientReady];
 }
 
 // This code will be called immediately after application:didFinishLaunchingWithOptions:. We need
